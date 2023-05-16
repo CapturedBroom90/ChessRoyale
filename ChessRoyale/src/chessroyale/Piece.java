@@ -17,7 +17,7 @@ public abstract class Piece
     {
         return(null);
     }
-    
+            
     public abstract void draw(Graphics2D g, ChessRoyale thisObj, int row,int column,int xdelta,int ydelta);
     
     public abstract void draw(Graphics2D g,ChessRoyale thisObj, int spot);

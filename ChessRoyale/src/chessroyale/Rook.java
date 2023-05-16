@@ -6,7 +6,6 @@ public class Rook extends Piece
     private static Image rookWhiteImage;
     private static int NUM_ROWS = 8;
     private static int NUM_COLUMNS = 5;
-    
     Rook(Color _color)
     {
         super(_color);
@@ -29,7 +28,6 @@ public class Rook extends Piece
     }
     
     public void draw(Graphics2D g,ChessRoyale thisObj,int row,int column,int xdelta,int ydelta) {
- 
         if(super.getColor() == Color.black)
             g.drawImage(rookBlackImage,column*xdelta+55,row*ydelta+72,xdelta-50,ydelta-5,thisObj);
         

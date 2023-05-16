@@ -30,10 +30,6 @@ public class Deck
                 deck[i] = new Rook(Color.white);
             }
         }
-        for(int i = 0;i<deck.length;i++)
-        {
-            System.out.println(deck[i].getType());
-        }
     }
     public static void randomize()
     {

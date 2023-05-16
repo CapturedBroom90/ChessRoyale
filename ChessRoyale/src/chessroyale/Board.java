@@ -46,38 +46,88 @@ public class Board {
         int col = xpixelOffset/xdelta;  
        
         
-        if(Deck.deck[slot].getType().equals("Queen") && board[row][col]==null)
+        if(Deck.deck[slot].getType().equals("Queen") && board[row][col]==null && Player.getCurrentPlayer().getElixir() >= 9)
         {
             board[row][col] = new Queen(Player.getCurrentPlayer().getColor());  
-            Elixer.addElixer();
-            Player.switchCurrentPlayer();
+            Player.getCurrentPlayer().subElixir(9);
         }
-        else if(Deck.deck[slot].getType().equals("Bishop") && board[row][col]==null)
+        else if(Deck.deck[slot].getType().equals("Bishop") && board[row][col]==null && Player.getCurrentPlayer().getElixir() >= 3)
         {
             board[row][col] = new Bishop(Player.getCurrentPlayer().getColor());  
-            Elixer.addElixer();
-            Player.switchCurrentPlayer();
+            Player.getCurrentPlayer().subElixir(3);
         }
-        else if(Deck.deck[slot].getType().equals("Rook") && board[row][col]==null)
+        else if(Deck.deck[slot].getType().equals("Rook") && board[row][col]==null && Player.getCurrentPlayer().getElixir() >= 5)
         {
             board[row][col] = new Rook(Player.getCurrentPlayer().getColor());  
-            Elixer.addElixer();
-            Player.switchCurrentPlayer();
+            Player.getCurrentPlayer().subElixir(5);
         }
-        else if(Deck.deck[slot].getType().equals("Knight") && board[row][col]==null)
+        else if(Deck.deck[slot].getType().equals("Knight") && board[row][col]==null && Player.getCurrentPlayer().getElixir() >= 3)
         {
             board[row][col] = new Knight(Player.getCurrentPlayer().getColor());  
-            Elixer.addElixer();
-            Player.switchCurrentPlayer();
+            Player.getCurrentPlayer().subElixir(3);
         }
         else 
             return;
     }  
-    public static void skip() 
+    public static void EndTurn() 
     {
         Player.switchCurrentPlayer();
-        Elixer.addElixer();
+        Player.getCurrentPlayer().addElixir();
+        System.out.println(Player.getCurrentPlayer().getElixir());
     }
+    public static boolean CheckSpot(int xpixel,int ypixel) 
+    {
+        int ydelta = Window.getHeight2()/NUM_ROWS;
+        int xdelta = Window.getWidth2()/NUM_COLUMNS;
+        int xpixelOffset = xpixel - Window.getX(0);
+        int ypixelOffset = ypixel - Window.getY(0);
+        
+        if (xpixelOffset < 0 || xpixelOffset > Window.getWidth2() ||
+        ypixelOffset < 0 || ypixelOffset > Window.getHeight2())
+            return false;
+        
+        int row = ypixelOffset/ydelta;
+        int col = xpixelOffset/xdelta;  
+        if(board[row][col] == null)
+            return false;
+        else
+            return true;
+    }
+    public static String pieceType(int xpixel,int ypixel) 
+    {
+        int ydelta = Window.getHeight2()/NUM_ROWS;
+        int xdelta = Window.getWidth2()/NUM_COLUMNS;
+        int xpixelOffset = xpixel - Window.getX(0);
+        int ypixelOffset = ypixel - Window.getY(0);
+        
+        int row = ypixelOffset/ydelta;
+        int col = xpixelOffset/xdelta; 
+        return board[row][col].getType();
+    }
+    public static void move(int ogxpixel,int ogypixel, int xpixel,int ypixel, String type) 
+    {
+        int ogydelta = Window.getHeight2()/NUM_ROWS;
+        int ogxdelta = Window.getWidth2()/NUM_COLUMNS;
+        int ogxpixelOffset = xpixel - Window.getX(0);
+        int ogypixelOffset = ypixel - Window.getY(0);
+        
+        int ogrow = ogypixelOffset/ogydelta;
+        int ogcol = ogxpixelOffset/ogxdelta; 
+        System.out.println(ogrow + " " + ogcol);
+         
+        int ydelta = Window.getHeight2()/NUM_ROWS;
+        int xdelta = Window.getWidth2()/NUM_COLUMNS;
+        int xpixelOffset = xpixel - Window.getX(0);
+        int ypixelOffset = ypixel - Window.getY(0);
+        
+        int row = ypixelOffset/ydelta;
+        int col = xpixelOffset/xdelta; 
+        System.out.println(row + " " + col);
+        
+        board[ogrow][ogcol] = board[row][col];
+        System.out.println("ouui");
+    }
+    
     public static void Draw(Graphics2D g, ChessRoyale thisObj) {
 //draw grid
         int ydelta = Window.getHeight2()/NUM_ROWS;

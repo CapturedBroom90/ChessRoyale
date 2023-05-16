@@ -7,6 +7,8 @@ public class Player {
     private static Player currentPlayer;
     private Color color;  
     private int score = 0;
+    private int elixir = 10;
+    
 //Class methods.    
     public static void Reset() {
 //If we have not created any instances yet, create the instances of the 2 players.
@@ -17,7 +19,8 @@ public class Player {
         }
         currentPlayer = players[0];
     }    
-    public static Player getCurrentPlayer() {
+    public static Player getCurrentPlayer() 
+    {
         return (currentPlayer);
     }
     public static void switchCurrentPlayer() {
@@ -42,13 +45,19 @@ public class Player {
     public Color getColor() {
         return(color);
     }
-    public int getScore()
+    public int getElixir()
     {
-        return score;
+        return elixir;
     }
 //mutator methods.    
-    public void addScore(int val)
+    public void addElixir()
     {
-        score+=val;
+        elixir += (int)(Math.random()*10)+1;
+        if(elixir > 10)
+            elixir = 10;
+    }
+    public void subElixir(int sub)
+    {
+        elixir -= sub;
     }
 }

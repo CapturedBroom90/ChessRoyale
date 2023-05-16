@@ -27,6 +27,7 @@ public class Knight extends Piece
     {
         return (super.getColor());
     }
+
     
     public void draw(Graphics2D g,ChessRoyale thisObj,int row,int column,int xdelta,int ydelta) {
  

@@ -14,6 +14,9 @@ import javax.swing.*;
     int hix = 0;
     int hiy = 0;
     
+    public boolean placePhase = true;
+    public boolean movePhase = false;
+    
     public static void main(String[] args) {
         ChessRoyale frame = new ChessRoyale();
         frame.setSize(Window.WINDOW_WIDTH, Window.WINDOW_HEIGHT);
@@ -22,10 +25,9 @@ import javax.swing.*;
     }
 
     public ChessRoyale() {
-        
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                if (e.BUTTON1 == e.getButton() && click == true) 
+                if (e.BUTTON1 == e.getButton() && click == true && placePhase) 
                 {
                     click = false;
                     hi = new Highlight();
@@ -59,16 +61,42 @@ import javax.swing.*;
                                     click = true;
                                     hi = null;
                                 } 
-
-
-                            
                             repaint();
                         }
                     });
                 }
+                    
+                
             }
         });
-            
+    addMouseListener(new MouseAdapter() {
+        public void mousePressed(MouseEvent e) {
+            if (e.BUTTON1 == e.getButton())
+            {
+                if(Board.CheckSpot(e.getX(), e.getY()))
+                { 
+                String type = Board.pieceType(e.getX(), e.getY());
+                int xog = e.getX();
+                int yog = e.getY();
+                System.out.println("ok");
+                    addMouseListener(new MouseAdapter() {
+                        public void mousePressed(MouseEvent a) 
+                        {
+                            if (a.BUTTON1 == a.getButton())
+                            {
+                                if(!Board.CheckSpot(a.getX(), a.getY()))
+                                {
+                                    System.out.println("yes");
+                                    Board.move(xog, yog, a.getX(), a.getY(), type);
+                                }
+                            }
+
+                        }
+                    });
+                }
+            }
+        }
+    });
 
     addMouseMotionListener(new MouseMotionAdapter() {
       public void mouseDragged(MouseEvent e) {
@@ -95,7 +123,17 @@ import javax.swing.*;
                 }  
                 else if (e.VK_ENTER == e.getKeyCode())
                 {
-                    Board.skip();
+                    if(placePhase)
+                    { 
+                        placePhase = false;
+                        movePhase = true;
+                    }
+                    else
+                    {
+                        Board.EndTurn();
+                        placePhase = true;
+                    }
+                    
                 }else if (e.VK_ESCAPE == e.getKeyCode()) {
                     reset();
                 }
@@ -155,13 +193,14 @@ import javax.swing.*;
         
         Board.Draw(g, this);
         
-
+        g.setColor(Color.black);
+        g.setFont (new Font ("Times New Roman",Font.PLAIN, 20));
         if(Player.getCurrentPlayer().getColor() == Player.getPlayer1().getColor())
         {
-            g.drawString("Player1 Turn", 250, 65);
+            g.drawString("Player 1 Turn", 225, 65);
         }
         else
-            g.drawString("Player2 Turn", 250, 65);
+            g.drawString("Player 2 Turn", 225, 65);
         
         gOld.drawImage(image, 0, 0, null);
     }
