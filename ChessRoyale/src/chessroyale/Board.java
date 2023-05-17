@@ -88,7 +88,7 @@ public class Board {
         
         int row = ypixelOffset/ydelta;
         int col = xpixelOffset/xdelta;  
-        if(board[row][col] == null)
+        if(board[row][col] == null || board[row][col].getColor() != Player.getCurrentPlayer().getColor())
             return false;
         else
             return true;
@@ -104,12 +104,12 @@ public class Board {
         int col = xpixelOffset/xdelta; 
         return board[row][col].getType();
     }
-    public static void move(int ogxpixel,int ogypixel, int xpixel,int ypixel, String type) 
+    public static void move(int ogxpixel,int ogypixel, int xpixel,int ypixel) 
     {
         int ogydelta = Window.getHeight2()/NUM_ROWS;
         int ogxdelta = Window.getWidth2()/NUM_COLUMNS;
-        int ogxpixelOffset = xpixel - Window.getX(0);
-        int ogypixelOffset = ypixel - Window.getY(0);
+        int ogxpixelOffset = ogxpixel - Window.getX(0);
+        int ogypixelOffset = ogypixel - Window.getY(0);
         
         int ogrow = ogypixelOffset/ogydelta;
         int ogcol = ogxpixelOffset/ogxdelta; 
@@ -123,9 +123,12 @@ public class Board {
         int row = ypixelOffset/ydelta;
         int col = xpixelOffset/xdelta; 
         System.out.println(row + " " + col);
-        
-        board[ogrow][ogcol] = board[row][col];
-        System.out.println("ouui");
+
+        if(board[ogrow][ogcol].isPossibleMove(ogrow, ogcol, row, col, board))
+        {
+            board[row][col] = board[ogrow][ogcol];
+            board[ogrow][ogcol] = null;
+        }
     }
     
     public static void Draw(Graphics2D g, ChessRoyale thisObj) {

@@ -26,6 +26,11 @@ public class King extends Piece
         return (super.getColor());
     }
     
+    public boolean isPossibleMove(int ogrow, int ogcol, int row, int col, Piece board[][])
+    {
+        return false;
+    }
+    
     public void draw(Graphics2D g,ChessRoyale thisObj,int row,int column,int xdelta,int ydelta) {
 
         if(super.getColor() == Color.black)

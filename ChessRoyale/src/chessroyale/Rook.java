@@ -27,6 +27,71 @@ public class Rook extends Piece
         return (super.getColor());
     }
     
+    public boolean isPossibleMove(int ogrow, int ogcol, int row, int col, Piece board[][])
+    {
+        if(ogrow < row && ogcol == col)
+        {
+            int count = 0;
+            for(int i = ogrow+1; i <= row; i++)
+            {
+                if(board[i][col] == null || board[i][col].getColor() != Player.getCurrentPlayer().getColor())
+                {
+                    count++;
+                }
+            }
+            if(count == row-ogrow)
+            {
+                return true;
+            }
+        }
+        else if(row < ogrow && ogcol == col)
+        {
+            int count = 0;
+            for(int i = ogrow-1; i >= row; i--)
+            {
+                if(board[i][col] == null || board[i][col].getColor() != Player.getCurrentPlayer().getColor())
+                {
+                    count++;
+                }
+            }
+            if(count == ogrow-row)
+            {
+                return true;
+            }
+        }
+        else if(ogcol < col && ogrow == row)
+        {
+            int count = 0;
+            for(int i = ogcol+1; i <= col; i++)
+            {
+                if(board[row][i] == null || board[i][col].getColor() != Player.getCurrentPlayer().getColor())
+                {
+                    count++;
+                }
+            }
+            if(count == col-ogcol)
+            {
+                return true;
+            }
+        }
+        else if(col < ogcol && ogrow == row)
+        {
+            int count = 0;
+            for(int i = ogcol-1; i >= col; i--)
+            {
+                if(board[row][i] == null || board[i][col].getColor() != Player.getCurrentPlayer().getColor())
+                {
+                    count++;
+                }
+            }
+            if(count == ogcol-col)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public void draw(Graphics2D g,ChessRoyale thisObj,int row,int column,int xdelta,int ydelta) {
         if(super.getColor() == Color.black)
             g.drawImage(rookBlackImage,column*xdelta+55,row*ydelta+72,xdelta-50,ydelta-5,thisObj);

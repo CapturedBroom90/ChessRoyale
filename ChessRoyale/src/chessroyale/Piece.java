@@ -17,7 +17,9 @@ public abstract class Piece
     {
         return(null);
     }
-            
+    
+    public abstract boolean isPossibleMove(int ogrow, int ogcol, int row, int col, Piece board[][]);
+    
     public abstract void draw(Graphics2D g, ChessRoyale thisObj, int row,int column,int xdelta,int ydelta);
     
     public abstract void draw(Graphics2D g,ChessRoyale thisObj, int spot);

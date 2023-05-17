@@ -71,14 +71,16 @@ import javax.swing.*;
         });
     addMouseListener(new MouseAdapter() {
         public void mousePressed(MouseEvent e) {
-            if (e.BUTTON1 == e.getButton())
+            if (e.BUTTON1 == e.getButton() && movePhase)
             {
                 if(Board.CheckSpot(e.getX(), e.getY()))
                 { 
-                String type = Board.pieceType(e.getX(), e.getY());
-                int xog = e.getX();
-                int yog = e.getY();
-                System.out.println("ok");
+                    String type = Board.pieceType(e.getX(), e.getY());
+                    int xog = e.getX();
+                    int yog = e.getY();
+                    hi = new Highlight();
+                    hix = e.getX();
+                    hiy = e.getY();
                     addMouseListener(new MouseAdapter() {
                         public void mousePressed(MouseEvent a) 
                         {
@@ -86,8 +88,8 @@ import javax.swing.*;
                             {
                                 if(!Board.CheckSpot(a.getX(), a.getY()))
                                 {
-                                    System.out.println("yes");
-                                    Board.move(xog, yog, a.getX(), a.getY(), type);
+                                    Board.move(xog, yog, a.getX(), a.getY());
+                                    hi = null;
                                 }
                             }
 
@@ -128,12 +130,11 @@ import javax.swing.*;
                         placePhase = false;
                         movePhase = true;
                     }
-                    else
+                    else 
                     {
                         Board.EndTurn();
                         placePhase = true;
                     }
-                    
                 }else if (e.VK_ESCAPE == e.getKeyCode()) {
                     reset();
                 }
