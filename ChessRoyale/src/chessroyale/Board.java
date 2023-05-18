@@ -9,7 +9,8 @@ public class Board {
     private final static int NUM_WIN = 3;
     private static int scoreVal = 0;
     
-    public static void Reset() {
+    public static void Reset() 
+    {
 //clear the board.
         for (int zrow=0;zrow<NUM_ROWS;zrow++)
             for (int zcol=0;zcol<NUM_COLUMNS;zcol++)
@@ -30,6 +31,17 @@ public class Board {
         board[1][NUM_COLUMNS/2+1] = new Pawn(Color.black);
         board[1][NUM_COLUMNS/2-1] = new Pawn(Color.black);
     }
+    
+    public static int getNumRows()
+    {
+        return(NUM_ROWS);
+    }
+    
+    public static int getNumCols()
+    {
+        return(NUM_COLUMNS);
+    }
+    
     public static void addPiece(int xpixel,int ypixel, int slot) 
     {
             
@@ -73,7 +85,6 @@ public class Board {
     {
         Player.switchCurrentPlayer();
         Player.getCurrentPlayer().addElixir();
-        System.out.println(Player.getCurrentPlayer().getElixir());
     }
     public static boolean CheckSpot(int xpixel,int ypixel) 
     {
@@ -113,7 +124,6 @@ public class Board {
         
         int ogrow = ogypixelOffset/ogydelta;
         int ogcol = ogxpixelOffset/ogxdelta; 
-        System.out.println(ogrow + " " + ogcol);
          
         int ydelta = Window.getHeight2()/NUM_ROWS;
         int xdelta = Window.getWidth2()/NUM_COLUMNS;
@@ -122,12 +132,14 @@ public class Board {
         
         int row = ypixelOffset/ydelta;
         int col = xpixelOffset/xdelta; 
-        System.out.println(row + " " + col);
-
+        
         if(board[ogrow][ogcol].isPossibleMove(ogrow, ogcol, row, col, board))
         {
             board[row][col] = board[ogrow][ogcol];
             board[ogrow][ogcol] = null;
+            EndTurn();
+            ChessRoyale.placePhase = true;
+            ChessRoyale.movePhase = false;
         }
     }
     

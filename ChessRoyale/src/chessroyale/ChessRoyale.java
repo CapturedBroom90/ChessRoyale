@@ -14,8 +14,17 @@ import javax.swing.*;
     int hix = 0;
     int hiy = 0;
     
-    public boolean placePhase = true;
-    public boolean movePhase = false;
+    int xpos = 0;
+    int ypos = 0;
+    
+    int ogxpos = 0;
+    int ogypos = 0;
+    
+    int newxpos = 0;
+    int newypos = 0;
+    
+    public static boolean placePhase = true;
+    public static boolean movePhase = false;
     
     public static void main(String[] args) {
         ChessRoyale frame = new ChessRoyale();
@@ -29,35 +38,45 @@ import javax.swing.*;
             public void mousePressed(MouseEvent e) {
                 if (e.BUTTON1 == e.getButton() && click == true && placePhase) 
                 {
+                    int ydelta = Window.getHeight2()/Board.getNumRows();
+                    int xdelta = Window.getWidth2()/Board.getNumCols();
+                    int xpixelOffset = e.getX() - Window.getX(0);
+                    int ypixelOffset = e.getY() - Window.getY(0);
+
+                    if (xpixelOffset < 0 || xpixelOffset > Window.getWidth2() ||
+                    ypixelOffset < 0 || ypixelOffset > Window.getHeight2())
+                        return;
+                    
                     click = false;
                     hi = new Highlight();
                     hix = e.getX();
                     hiy = e.getY();
-                    
+                    xpos = e.getX();
+                    ypos = e.getY();
                     addKeyListener(new KeyAdapter(){
                         public void keyPressed(KeyEvent a) {
 
                                 if (a.VK_1 == a.getKeyCode()) 
                                 {
-                                    Board.addPiece(e.getX(),e.getY(), 0);
+                                    Board.addPiece(xpos,ypos, 0);
                                     click = true;
                                     hi = null;
                                 } 
                                 else if (a.VK_2 == a.getKeyCode()) 
                                 {
-                                    Board.addPiece(e.getX(),e.getY(), 1);
+                                    Board.addPiece(xpos,ypos, 1);
                                     click = true;
                                     hi = null;
                                 } 
                                 else if (a.VK_3 == a.getKeyCode()) 
                                 {
-                                    Board.addPiece(e.getX(),e.getY(), 2);
+                                    Board.addPiece(xpos,ypos, 2);
                                     click = true;
                                     hi = null;
                                 } 
                                 else if (a.VK_4 == a.getKeyCode()) 
                                 {
-                                    Board.addPiece(e.getX(),e.getY(), 3);
+                                    Board.addPiece(xpos,ypos, 3);
                                     click = true;
                                     hi = null;
                                 } 
@@ -65,19 +84,19 @@ import javax.swing.*;
                         }
                     });
                 }
-                    
-                
             }
         });
+        
     addMouseListener(new MouseAdapter() {
         public void mousePressed(MouseEvent e) {
             if (e.BUTTON1 == e.getButton() && movePhase)
             {
                 if(Board.CheckSpot(e.getX(), e.getY()))
                 { 
+
                     String type = Board.pieceType(e.getX(), e.getY());
-                    int xog = e.getX();
-                    int yog = e.getY();
+                    ogxpos = e.getX();
+                    ogypos = e.getY();
                     hi = new Highlight();
                     hix = e.getX();
                     hiy = e.getY();
@@ -88,7 +107,9 @@ import javax.swing.*;
                             {
                                 if(!Board.CheckSpot(a.getX(), a.getY()))
                                 {
-                                    Board.move(xog, yog, a.getX(), a.getY());
+                                    newxpos = a.getX();
+                                    newypos = a.getY();
+                                    Board.move(ogxpos, ogypos, newxpos, newypos);
                                     hi = null;
                                 }
                             }
@@ -123,6 +144,13 @@ import javax.swing.*;
                 } else if (e.VK_LEFT == e.getKeyCode()) {
                 } else if (e.VK_RIGHT == e.getKeyCode()) {
                 }  
+                else if (e.VK_SPACE == e.getKeyCode())
+                {
+                    xpos = 0;
+                    ypos = 0;
+                    click = true;
+                    hi = null;
+                }
                 else if (e.VK_ENTER == e.getKeyCode())
                 {
                     if(placePhase)
@@ -134,6 +162,7 @@ import javax.swing.*;
                     {
                         Board.EndTurn();
                         placePhase = true;
+                        movePhase = false;
                     }
                 }else if (e.VK_ESCAPE == e.getKeyCode()) {
                     reset();
