@@ -1,11 +1,17 @@
 package chessroyale;
+
+import java.io.*;
 import java.awt.*;
+import javax.sound.sampled.*;
+
 public class Rook extends Piece
 {
     private static Image rookBlackImage;
     private static Image rookWhiteImage;
     private static int NUM_ROWS = 8;
     private static int NUM_COLUMNS = 5;
+    sound rookSound = null;  
+    
     Rook(Color _color)
     {
         super(_color);
@@ -38,11 +44,13 @@ public class Rook extends Piece
                 if(board[i][col] == null)
                 {
                     count++;
+                     
                 }
                 else if(board[i][col] != null)
                 {
                     if(board[i][col].getColor() != Player.getCurrentPlayer().getColor())
                     {
+                        rookSound = new sound("man.wav"); 
                         count++;
                     }
                 }
@@ -71,7 +79,11 @@ public class Rook extends Piece
                 else if(board[i][col] != null)
                 {
                     if(board[i][col].getColor() != Player.getCurrentPlayer().getColor())
+                    {
+                        rookSound = new sound("man.wav"); 
                         count++;
+                        System.out.println("yeps");
+                    }
                 }
                 if(board[i][col] != null && i > row)
                 {
@@ -99,8 +111,8 @@ public class Rook extends Piece
                 {
                     if(board[row][i].getColor() != Player.getCurrentPlayer().getColor())
                     {
+                        rookSound = new sound("man.wav"); 
                         count++;
-
                     }
                 }
                 if(board[row][i] != null && i < col)
@@ -129,7 +141,9 @@ public class Rook extends Piece
                 {
                     if(board[row][i].getColor() != Player.getCurrentPlayer().getColor())
                     {
+                        rookSound = new sound("man.wav"); 
                         count++;
+                        
                     }
                 }
                 if(board[row][i] != null && i > col)
@@ -144,7 +158,6 @@ public class Rook extends Piece
         }
         return false;
     }
-    
     public void draw(Graphics2D g,ChessRoyale thisObj,int row,int column,int xdelta,int ydelta) {
         if(super.getColor() == Color.black)
             g.drawImage(rookBlackImage,column*xdelta+55,row*ydelta+72,xdelta-50,ydelta-5,thisObj);
@@ -173,5 +186,4 @@ public class Rook extends Piece
         else if(super.getColor() == Color.white && spot == 3)
             g.drawImage(rookWhiteImage,Window.getWidth2()*9/11,Window.WINDOW_HEIGHT*5/6,100,150,thisObj);
     }
-    
 }

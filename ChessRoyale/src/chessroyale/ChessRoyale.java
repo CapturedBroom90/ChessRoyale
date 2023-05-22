@@ -58,6 +58,7 @@ import javax.sound.sampled.*;
                     hiy = e.getY();
                     xpos = e.getX();
                     ypos = e.getY();
+                    
                     addKeyListener(new KeyAdapter(){
                         public void keyPressed(KeyEvent a) {
 
@@ -225,9 +226,8 @@ import javax.sound.sampled.*;
         if(hi != null)
             hi.draw(g, hix, hiy);
         
-        
         Board.Draw(g, this);
-        
+
         g.setColor(Color.black);
         g.setFont (new Font ("Times New Roman",Font.PLAIN, 20));
         if(Player.getCurrentPlayer().getColor() == Player.getPlayer1().getColor())
@@ -273,7 +273,6 @@ import javax.sound.sampled.*;
                 Window.xsize = getSize().width;
                 Window.ysize = getSize().height;
             }
-            
             if (bgSound.donePlaying)       
                 bgSound = new sound("bgmusic.wav");
             

@@ -31,6 +31,35 @@ public class Bishop extends Piece
     
     public boolean isPossibleMove(int ogrow, int ogcol, int row, int col, Piece board[][])
     {
+        int ymove = 0;
+        int xmove = 0;
+        boolean canMove = true;
+
+            for(int i = ogrow+1; i <= row; i++)
+            {   
+                ymove++;
+                for(int j = ogcol+1; j <= col; j++)
+                {
+                    xmove++;
+//                if(board[i][col] != null)
+//                {
+//                    if(board[i][col].getColor() != Player.getCurrentPlayer().getColor())
+//                    {
+//                        return true;
+//                    }
+//                }
+//                if(board[i][col] != null && i < row)
+//                {
+//                    canMove = false;
+//                }
+                }
+            }
+            if(Math.abs(ymove) == Math.abs(xmove))
+            {
+                return true;
+            }
+        
+        
         return false;
     }
     

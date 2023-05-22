@@ -150,7 +150,8 @@ public class Board {
             return;
     }
     
-    public static void Draw(Graphics2D g, ChessRoyale thisObj) {
+    public static void Draw(Graphics2D g, ChessRoyale thisObj) 
+    {
 //draw grid
         int ydelta = Window.getHeight2()/NUM_ROWS;
         int xdelta = Window.getWidth2()/NUM_COLUMNS;
@@ -174,5 +175,9 @@ public class Board {
                     board[zrow][zcol].draw(g, thisObj, zrow, zcol,xdelta, ydelta);
             }
         }   
+        
+        
+      
+        
     }
 }
