@@ -1,6 +1,8 @@
 //Board.java=====================
 package chessroyale;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Board {
     private final static int NUM_ROWS = 8;
@@ -85,6 +87,8 @@ public class Board {
     {
         Player.switchCurrentPlayer();
         Player.getCurrentPlayer().addElixir();
+        ChessRoyale.placePhase = true;
+        ChessRoyale.movePhase = false;
     }
     public static boolean CheckSpot(int xpixel,int ypixel) 
     {
@@ -131,16 +135,19 @@ public class Board {
         int ypixelOffset = ypixel - Window.getY(0);
         
         int row = ypixelOffset/ydelta;
-        int col = xpixelOffset/xdelta; 
+        int col = xpixelOffset/xdelta;
         
-        if(board[ogrow][ogcol].isPossibleMove(ogrow, ogcol, row, col, board))
+        if(board[ogrow][ogcol] != null)
         {
-            board[row][col] = board[ogrow][ogcol];
-            board[ogrow][ogcol] = null;
-            EndTurn();
-            ChessRoyale.placePhase = true;
-            ChessRoyale.movePhase = false;
+            if(board[ogrow][ogcol].isPossibleMove(ogrow, ogcol, row, col, board))
+            {
+                board[row][col] = board[ogrow][ogcol];
+                board[ogrow][ogcol] = null;
+                EndTurn();
+            }
         }
+        else
+            return;
     }
     
     public static void Draw(Graphics2D g, ChessRoyale thisObj) {

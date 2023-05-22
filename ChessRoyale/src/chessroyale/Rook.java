@@ -29,21 +29,36 @@ public class Rook extends Piece
     
     public boolean isPossibleMove(int ogrow, int ogcol, int row, int col, Piece board[][])
     {
+        boolean canMove = true;
         if(ogrow < row && ogcol == col)
         {
             int count = 0;
             for(int i = ogrow+1; i <= row; i++)
             {
-                if(board[i][col] == null || board[i][col].getColor() != Player.getCurrentPlayer().getColor())
+                if(board[i][col] == null)
                 {
                     count++;
                 }
+                else if(board[i][col] != null)
+                {
+                    if(board[i][col].getColor() != Player.getCurrentPlayer().getColor())
+                    {
+                        count++;
+                    }
+                }
+                if(board[i][col] != null && i < row)
+                {
+                    canMove = false;
+                }
             }
-            if(count == row-ogrow)
+            if(count == row-ogrow && canMove == true)
             {
                 return true;
             }
         }
+        
+        
+        
         else if(row < ogrow && ogcol == col)
         {
             int count = 0;
@@ -53,38 +68,76 @@ public class Rook extends Piece
                 {
                     count++;
                 }
+                else if(board[i][col] != null)
+                {
+                    if(board[i][col].getColor() != Player.getCurrentPlayer().getColor())
+                        count++;
+                }
+                if(board[i][col] != null && i > row)
+                {
+                    canMove = false;
+                }
             }
-            if(count == ogrow-row)
+            if(count == ogrow-row  && canMove == true)
             {
                 return true;
             }
         }
+        
+        
+        
         else if(ogcol < col && ogrow == row)
         {
             int count = 0;
             for(int i = ogcol+1; i <= col; i++)
             {
-                if(board[row][i] == null || board[i][col].getColor() != Player.getCurrentPlayer().getColor())
+                if(board[row][i] == null)
                 {
                     count++;
                 }
+                else if(board[row][i] != null)
+                {
+                    if(board[row][i].getColor() != Player.getCurrentPlayer().getColor())
+                    {
+                        count++;
+
+                    }
+                }
+                if(board[row][i] != null && i < col)
+                {
+                    canMove = false;
+                }
             }
-            if(count == col-ogcol)
+            if(count == col-ogcol && canMove == true)
             {
                 return true;
             }
         }
+        
+        
+        
         else if(col < ogcol && ogrow == row)
         {
             int count = 0;
             for(int i = ogcol-1; i >= col; i--)
             {
-                if(board[row][i] == null || board[i][col].getColor() != Player.getCurrentPlayer().getColor())
+                if(board[row][i] == null)
                 {
                     count++;
                 }
+                else if(board[row][i] != null)
+                {
+                    if(board[row][i].getColor() != Player.getCurrentPlayer().getColor())
+                    {
+                        count++;
+                    }
+                }
+                if(board[row][i] != null && i > col)
+                {
+                    canMove = false;
+                }
             }
-            if(count == ogcol-col)
+            if(count == ogcol-col && canMove == true)
             {
                 return true;
             }

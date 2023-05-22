@@ -25,7 +25,14 @@ public class Highlight
         
         int row = ypixelOffset/ydelta;
         int col = xpixelOffset/xdelta;
-        g.setColor(Color.green);
+        if(ChessRoyale.placePhase)
+        {
+            g.setColor(Color.green);
+        }
+        if(ChessRoyale.movePhase)
+        {
+            g.setColor(Color.red);
+        }
             g.fillRect(Window.getX(col*xdelta), Window.getY(row*ydelta), xdelta, ydelta);
     }        
 }
