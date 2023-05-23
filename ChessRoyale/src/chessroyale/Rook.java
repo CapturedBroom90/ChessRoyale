@@ -10,7 +10,7 @@ public class Rook extends Piece
     private static Image rookWhiteImage;
     private static int NUM_ROWS = 8;
     private static int NUM_COLUMNS = 5;
-    sound rookSound = null;  
+    sound rooksound = null;
     
     Rook(Color _color)
     {
@@ -46,17 +46,17 @@ public class Rook extends Piece
                     count++;
                      
                 }
-                else if(board[i][col] != null)
-                {
-                    if(board[i][col].getColor() != Player.getCurrentPlayer().getColor())
-                    {
-                        rookSound = new sound("man.wav"); 
-                        count++;
-                    }
-                }
                 if(board[i][col] != null && i < row)
                 {
                     canMove = false;
+                }
+                if(board[i][col] != null)
+                {
+                    if(board[i][col].getColor() != Player.getCurrentPlayer().getColor() && canMove)
+                    {
+                        rooksound = new sound("man.wav");
+                        return true;
+                    }
                 }
             }
             if(count == row-ogrow && canMove == true)
@@ -76,18 +76,18 @@ public class Rook extends Piece
                 {
                     count++;
                 }
-                else if(board[i][col] != null)
-                {
-                    if(board[i][col].getColor() != Player.getCurrentPlayer().getColor())
-                    {
-                        rookSound = new sound("man.wav"); 
-                        count++;
-                        System.out.println("yeps");
-                    }
-                }
+                
                 if(board[i][col] != null && i > row)
                 {
                     canMove = false;
+                }
+                if(board[i][col] != null)
+                {
+                    if(board[i][col].getColor() != Player.getCurrentPlayer().getColor() && canMove)
+                    {
+                        rooksound = new sound("man.wav");
+                        return true;
+                    }
                 }
             }
             if(count == ogrow-row  && canMove == true)
@@ -107,21 +107,23 @@ public class Rook extends Piece
                 {
                     count++;
                 }
-                else if(board[row][i] != null)
-                {
-                    if(board[row][i].getColor() != Player.getCurrentPlayer().getColor())
-                    {
-                        rookSound = new sound("man.wav"); 
-                        count++;
-                    }
-                }
+                
                 if(board[row][i] != null && i < col)
                 {
                     canMove = false;
                 }
+                if(board[row][i] != null)
+                {
+                    if(board[row][i].getColor() != Player.getCurrentPlayer().getColor() && canMove)
+                    {
+                        rooksound = new sound("man.wav");
+                        return true;
+                    }
+                }
             }
             if(count == col-ogcol && canMove == true)
             {
+                
                 return true;
             }
         }
@@ -137,18 +139,17 @@ public class Rook extends Piece
                 {
                     count++;
                 }
-                else if(board[row][i] != null)
-                {
-                    if(board[row][i].getColor() != Player.getCurrentPlayer().getColor())
-                    {
-                        rookSound = new sound("man.wav"); 
-                        count++;
-                        
-                    }
-                }
                 if(board[row][i] != null && i > col)
                 {
                     canMove = false;
+                }
+                if(board[row][i] != null)
+                {
+                    if(board[row][i].getColor() != Player.getCurrentPlayer().getColor() && canMove)
+                    {
+                        rooksound = new sound("man.wav");
+                        return true;
+                    }
                 }
             }
             if(count == ogcol-col && canMove == true)
@@ -158,6 +159,7 @@ public class Rook extends Piece
         }
         return false;
     }
+    
     public void draw(Graphics2D g,ChessRoyale thisObj,int row,int column,int xdelta,int ydelta) {
         if(super.getColor() == Color.black)
             g.drawImage(rookBlackImage,column*xdelta+55,row*ydelta+72,xdelta-50,ydelta-5,thisObj);

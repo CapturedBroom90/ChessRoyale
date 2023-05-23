@@ -237,6 +237,11 @@ import javax.sound.sampled.*;
         else
             g.drawString("Player 2 Turn", 225, 65);
         
+        if(placePhase)
+            g.drawString("Place Phase", 350, 65);
+        else
+            g.drawString("Move Phase", 350, 65);
+        
         gOld.drawImage(image, 0, 0, null);
     }
 

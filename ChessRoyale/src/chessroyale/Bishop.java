@@ -34,32 +34,97 @@ public class Bishop extends Piece
         int ymove = 0;
         int xmove = 0;
         boolean canMove = true;
-
+        if(ogrow < row && ogcol < col)
+        {
             for(int i = ogrow+1; i <= row; i++)
             {   
                 ymove++;
-                for(int j = ogcol+1; j <= col; j++)
+            }
+            for(int j = ogcol+1; j <= col; j++)
+            {
+                xmove++;
+            }
+            while(board[ogrow][ogcol] != board[row][col])
+            {
+                ogrow++;
+                ogcol++;
+                if(board[ogrow][ogcol] != null && board[ogrow][ogcol] != board[row][col])
                 {
-                    xmove++;
-//                if(board[i][col] != null)
-//                {
-//                    if(board[i][col].getColor() != Player.getCurrentPlayer().getColor())
-//                    {
-//                        return true;
-//                    }
-//                }
-//                if(board[i][col] != null && i < row)
-//                {
-//                    canMove = false;
-//                }
+                    canMove = false;
                 }
             }
-            if(Math.abs(ymove) == Math.abs(xmove))
-            {
+            if(xmove == ymove && canMove)
                 return true;
+        }
+        
+        else if(ogrow > row && ogcol < col)
+        {
+            for(int i = ogrow-1; i >= row; i--)
+            {   
+                ymove++;
             }
+            for(int j = ogcol+1; j <= col; j++)
+            {
+                xmove++;
+            }
+            while(board[ogrow][ogcol] != board[row][col])
+            {
+                ogrow--;
+                ogcol++;
+                if(board[ogrow][ogcol] != null && board[ogrow][ogcol] != board[row][col])
+                {
+                    canMove = false;
+                }
+            }
+            if(xmove == ymove && canMove)
+                return true;
+        }
         
+        else if(ogrow > row && ogcol > col)
+        {
+            for(int i = ogrow-1; i >= row; i--)
+            {   
+                ymove++;
+            }
+            for(int j = ogcol-1; j >= col; j--)
+            {
+                xmove++;
+            }
+            while(board[ogrow][ogcol] != board[row][col])
+            {
+                ogrow--;
+                ogcol--;
+                if(board[ogrow][ogcol] != null && board[ogrow][ogcol] != board[row][col])
+                {
+                    canMove = false;
+                }
+            }
+            if(xmove == ymove && canMove)
+                return true;
+        }
         
+        if(ogrow < row && ogcol > col)
+        {
+            for(int i = ogrow+1; i <= row; i++)
+            {   
+                ymove++;
+            }
+            for(int j = ogcol-1; j >= col; j--)
+            {
+                xmove++;
+            }
+            while(board[ogrow][ogcol] != board[row][col])
+            {
+                ogrow++;
+                ogcol--;
+                if(board[ogrow][ogcol] != null && board[ogrow][ogcol] != board[row][col])
+                {
+                    canMove = false;
+                }
+            }
+            if(xmove == ymove && canMove)
+                return true;
+        }
         return false;
     }
     
