@@ -33,14 +33,14 @@ public class Bishop extends Piece
     {
         int ymove = 0;
         int xmove = 0;
-        boolean canMove = true;
+        boolean canMove = false;
         if(ogrow < row && ogcol < col)
         {
-            for(int i = ogrow+1; i <= row; i++)
+            for(int i = ogrow; i <= row; i++)
             {   
                 ymove++;
             }
-            for(int j = ogcol+1; j <= col; j++)
+            for(int j = ogcol; j <= col; j++)
             {
                 xmove++;
             }
@@ -59,11 +59,11 @@ public class Bishop extends Piece
         
         else if(ogrow > row && ogcol < col)
         {
-            for(int i = ogrow-1; i >= row; i--)
+            for(int i = ogrow; i >= row; i--)
             {   
                 ymove++;
             }
-            for(int j = ogcol+1; j <= col; j++)
+            for(int j = ogcol; j <= col; j++)
             {
                 xmove++;
             }
@@ -82,11 +82,11 @@ public class Bishop extends Piece
         
         else if(ogrow > row && ogcol > col)
         {
-            for(int i = ogrow-1; i >= row; i--)
+            for(int i = ogrow; i >= row; i--)
             {   
                 ymove++;
             }
-            for(int j = ogcol-1; j >= col; j--)
+            for(int j = ogcol; j >= col; j--)
             {
                 xmove++;
             }
@@ -103,13 +103,13 @@ public class Bishop extends Piece
                 return true;
         }
         
-        if(ogrow < row && ogcol > col)
+        else if(ogrow < row && ogcol > col)
         {
-            for(int i = ogrow+1; i <= row; i++)
+            for(int i = ogrow; i <= row; i++)
             {   
                 ymove++;
             }
-            for(int j = ogcol-1; j >= col; j--)
+            for(int j = ogcol; j >= col; j--)
             {
                 xmove++;
             }

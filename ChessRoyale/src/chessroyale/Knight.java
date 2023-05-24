@@ -30,7 +30,70 @@ public class Knight extends Piece
 
     public boolean isPossibleMove(int ogrow, int ogcol, int row, int col, Piece board[][])
     {
+        int xmove = 0;
+        int ymove = 0;
+        if(ogrow < row && ogcol < col)
+        {
+            for(int i = ogrow+1; i <= row; i++)
+            {
+                xmove++;
+            }
+            for (int j = ogcol+1; j <= col; j++)
+            {
+                ymove++;
+            }
+            if(xmove ==  ymove + 1 || ymove == xmove + 1)
+            {
+                return true;
+            }
+        }
+        else if(row < ogrow && ogcol > col)
+        {
+            for(int i = ogrow-1; i >= row; i--)
+            {
+                xmove++;
+            }
+            for (int j = ogcol-1; j >= col; j--)
+            {
+                ymove++;
+            }
+            if(xmove ==  ymove + 1 || ymove == xmove + 1)
+            {
+                return true;
+            }
+        }
+        else if(ogcol < col && ogrow > row)
+        {
+            for(int i = ogrow-1; i >= row; i--)
+            {
+                xmove++;
+            }
+            for (int j = ogcol+1; j <= col; j++)
+            {
+                ymove++;
+            }
+            if(xmove ==  ymove + 1 || ymove == xmove + 1)
+            {
+                return true;
+            }
+        }
+        else if(col < ogcol && ogrow < row)
+        {
+            for(int i = ogrow+1; i <= row; i++)
+            {
+                xmove++;
+            }
+            for (int j = ogcol-1; j >= col; j--)
+            {
+                ymove++;
+            }
+            if(xmove ==  ymove + 1 || ymove == xmove + 1)
+            {
+                return true;
+            }
+        }
         return false;
+
     }
     
     public void draw(Graphics2D g,ChessRoyale thisObj,int row,int column,int xdelta,int ydelta) {
