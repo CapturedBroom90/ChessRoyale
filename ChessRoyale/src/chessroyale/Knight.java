@@ -30,7 +30,7 @@ public class Knight extends Piece
 
     public boolean isPossibleMove(int ogrow, int ogcol, int row, int col, Piece board[][])
     {
-        int xmove = 0;
+      int xmove = 0;
         int ymove = 0;
         if(ogrow < row && ogcol < col)
         {
@@ -42,7 +42,7 @@ public class Knight extends Piece
             {
                 ymove++;
             }
-            if(xmove ==  ymove + 1 || ymove == xmove + 1)
+            if(xmove ==  ymove + 1 && xmove == 2|| ymove == xmove + 1 && ymove == 2)
             {
                 return true;
             }
@@ -57,7 +57,7 @@ public class Knight extends Piece
             {
                 ymove++;
             }
-            if(xmove ==  ymove + 1 || ymove == xmove + 1)
+            if(xmove ==  ymove + 1 && xmove == 2|| ymove == xmove + 1 && ymove == 2)
             {
                 return true;
             }
@@ -72,7 +72,7 @@ public class Knight extends Piece
             {
                 ymove++;
             }
-            if(xmove ==  ymove + 1 || ymove == xmove + 1)
+            if(xmove ==  ymove + 1 && xmove == 2|| ymove == xmove + 1 && ymove == 2)
             {
                 return true;
             }
@@ -87,7 +87,7 @@ public class Knight extends Piece
             {
                 ymove++;
             }
-            if(xmove ==  ymove + 1 || ymove == xmove + 1)
+            if(xmove ==  ymove + 1 && xmove == 2|| ymove == xmove + 1 && ymove == 2)
             {
                 return true;
             }

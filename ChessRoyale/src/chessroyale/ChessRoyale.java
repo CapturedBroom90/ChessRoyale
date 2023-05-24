@@ -209,6 +209,7 @@ import javax.sound.sampled.*;
         int x[] = {Window.getX(0), Window.getX(Window.getWidth2()), Window.getX(Window.getWidth2()), Window.getX(0), Window.getX(0)};
         int y[] = {Window.getY(0), Window.getY(0), Window.getY(Window.getHeight2()), Window.getY(Window.getHeight2()), Window.getY(0)};
 //fill border
+
         g.setColor(Color.white);
         g.fillPolygon(x, y, 4);
 // draw border
@@ -219,6 +220,7 @@ import javax.sound.sampled.*;
             gOld.drawImage(image, 0, 0, null);
             return;
         }
+
         
         
         Deck.draw(g, this);
@@ -241,6 +243,8 @@ import javax.sound.sampled.*;
             g.drawString("Place Phase", 350, 65);
         else
             g.drawString("Move Phase", 350, 65);
+        
+        
         
         gOld.drawImage(image, 0, 0, null);
     }
@@ -265,6 +269,8 @@ import javax.sound.sampled.*;
         Board.Reset();
         Player.Reset();
         Deck.reset();
+        movePhase = false;
+        placePhase = true;
     }
 /////////////////////////////////////////////////////////////////////////
     public void animate() {

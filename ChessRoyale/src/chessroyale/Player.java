@@ -7,12 +7,14 @@ public class Player {
     private static Player currentPlayer;
     private Color color;  
     private int score = 0;
-    private int elixir = 10;
+    private static int elixir = 10;
     
 //Class methods.    
     public static void Reset() {
 //If we have not created any instances yet, create the instances of the 2 players.
 //Have the first player be the current player.
+        elixir = 10;
+    
         if (players[0] == null) {
           players[0] = new Player(Color.white);
           players[1] = new Player(Color.black);            

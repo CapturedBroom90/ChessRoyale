@@ -176,8 +176,37 @@ public class Board {
             }
         }   
         
+        int ecolumns = 10;
+        int erows = 1;
+        int _ydelta = Window.getHeight2()/erows;
+        int _xdelta = Window.getWidth2()/ecolumns;
+ 
         
-      
         
+        g.setColor(Color.black);
+        for (int zi = 1;zi<erows;zi++)
+        {
+            g.drawLine(Window.getX(0),Window.getY(zi*_ydelta),
+                    Window.getX(Window.getWidth2()),Window.getY(zi*_ydelta));
+        }
+        
+        for (int zi = 1;zi<ecolumns;zi++)
+        {
+            g.drawLine(Window.getX(zi*_xdelta),Window.getY(Window.getHeight2()),
+                    Window.getX(zi*_xdelta),Window.getY(780));
+        }
+        for (int zrow=0;zrow<erows;zrow++)
+        {
+            for (int zcol=0;zcol<1;zcol++)        
+            {
+                if (board[zrow][zcol] != null)
+                    board[zrow][zcol].draw(g,thisObj, zrow, zcol,_xdelta, _ydelta);
+            }
+        }       
+        g.setColor(Color.white);
+        for(int i = Player.getCurrentPlayer().getElixir();i<ecolumns;i++)
+        {
+            g.fillRect(Window.getX(i*50), Window.getY(761), _xdelta-1, 20);
+        }
     }
 }
