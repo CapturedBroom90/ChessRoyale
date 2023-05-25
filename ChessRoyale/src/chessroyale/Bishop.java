@@ -44,7 +44,7 @@ public class Bishop extends Piece
             {
                 xmove++;
             }
-            while(board[ogrow][ogcol] != board[row][col] && canMove)
+            while(ogrow < row && ogcol < col)
             {
                 ogrow++;
                 ogcol++;
@@ -67,16 +67,17 @@ public class Bishop extends Piece
             {
                 xmove++;
             }
-            
-            if(xmove == ymove)
+            while(ogrow > row && ogcol < col)
             {
-                while(board[ogrow][ogcol] != board[row][col])
+                ogrow--;
+                ogcol++;
+                if(board[ogrow][ogcol] != null && board[ogrow][ogcol] != board[row][col])
                 {
-                    ogrow--;
-                    ogcol++;
+                    canMove = false;
                 }
             }
-                
+            if(xmove == ymove && canMove)
+                return true;
         }
         
         else if(ogrow > row && ogcol > col)
@@ -89,7 +90,7 @@ public class Bishop extends Piece
             {
                 xmove++;
             }
-            while(board[ogrow][ogcol] != board[row][col])
+            while(ogrow > row && ogcol > col)
             {
                 ogrow--;
                 ogcol--;
@@ -112,7 +113,7 @@ public class Bishop extends Piece
             {
                 xmove++;
             }
-            while(board[ogrow][ogcol] != board[row][col])
+            while(ogrow < row && ogcol > col)
             {
                 ogrow++;
                 ogcol--;

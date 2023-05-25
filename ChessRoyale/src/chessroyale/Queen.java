@@ -31,6 +31,218 @@ public class Queen extends Piece
     
     public boolean isPossibleMove(int ogrow, int ogcol, int row, int col, Piece board[][])
     {
+        int ymove = 0;
+        int xmove = 0;
+        boolean canMove = true;
+        if(ogrow < row && ogcol < col)
+        {
+            for(int i = ogrow; i <= row; i++)
+            {   
+                ymove++;
+            }
+            for(int j = ogcol; j <= col; j++)
+            {
+                xmove++;
+            }
+            while(ogrow < row && ogcol < col)
+            {
+                ogrow++;
+                ogcol++;
+                if(board[ogrow][ogcol] != null && board[ogrow][ogcol] != board[row][col])
+                {
+                    canMove = false;
+                }
+            }
+            if(xmove == ymove && canMove)
+                return true;
+        }
+        
+        else if(ogrow > row && ogcol < col)
+        {
+            for(int i = ogrow; i >= row; i--)
+            {   
+                ymove++;
+            }
+            for(int j = ogcol; j <= col; j++)
+            {
+                xmove++;
+            }
+            while(ogrow > row && ogcol < col)
+            {
+                ogrow--;
+                ogcol++;
+                if(board[ogrow][ogcol] != null && board[ogrow][ogcol] != board[row][col])
+                {
+                    canMove = false;
+                }
+            }
+            if(xmove == ymove && canMove)
+                return true;
+        }
+        
+        else if(ogrow > row && ogcol > col)
+        {
+            for(int i = ogrow; i >= row; i--)
+            {   
+                ymove++;
+            }
+            for(int j = ogcol; j >= col; j--)
+            {
+                xmove++;
+            }
+            while(ogrow > row && ogcol > col)
+            {
+                ogrow--;
+                ogcol--;
+                if(board[ogrow][ogcol] != null && board[ogrow][ogcol] != board[row][col])
+                {
+                    canMove = false;
+                }
+            }
+            if(xmove == ymove && canMove)
+                return true;
+        }
+        
+        else if(ogrow < row && ogcol > col)
+        {
+            for(int i = ogrow; i <= row; i++)
+            {   
+                ymove++;
+            }
+            for(int j = ogcol; j >= col; j--)
+            {
+                xmove++;
+            }
+            while(ogrow < row && ogcol > col)
+            {
+                ogrow++;
+                ogcol--;
+                if(board[ogrow][ogcol] != null && board[ogrow][ogcol] != board[row][col])
+                {
+                    canMove = false;
+                }
+            }
+            if(xmove == ymove && canMove)
+                return true;
+        }
+        
+        else if(ogrow < row && ogcol == col)
+        {
+            int count = 0;
+            for(int i = ogrow+1; i <= row; i++)
+            {
+                if(board[i][col] == null)
+                {
+                    count++;
+                     
+                }
+                if(board[i][col] != null && i < row)
+                {
+                    canMove = false;
+                }
+                if(board[i][col] != null)
+                {
+                    if(board[i][col].getColor() != Player.getCurrentPlayer().getColor() && canMove)
+                    {
+                        return true;
+                    }
+                }
+            }
+            if(count == row-ogrow && canMove == true)
+            {
+                return true;
+            }
+        }
+        
+        
+        
+        else if(row < ogrow && ogcol == col)
+        {
+            int count = 0;
+            for(int i = ogrow-1; i >= row; i--)
+            {
+                if(board[i][col] == null || board[i][col].getColor() != Player.getCurrentPlayer().getColor())
+                {
+                    count++;
+                }
+                
+                if(board[i][col] != null && i > row)
+                {
+                    canMove = false;
+                }
+                if(board[i][col] != null)
+                {
+                    if(board[i][col].getColor() != Player.getCurrentPlayer().getColor() && canMove)
+                    {
+                        return true;
+                    }
+                }
+            }
+            if(count == ogrow-row  && canMove == true)
+            {
+                return true;
+            }
+        }
+        
+        
+        
+        else if(ogcol < col && ogrow == row)
+        {
+            int count = 0;
+            for(int i = ogcol+1; i <= col; i++)
+            {
+                if(board[row][i] == null)
+                {
+                    count++;
+                }
+                
+                if(board[row][i] != null && i < col)
+                {
+                    canMove = false;
+                }
+                if(board[row][i] != null)
+                {
+                    if(board[row][i].getColor() != Player.getCurrentPlayer().getColor() && canMove)
+                    {
+                        return true;
+                    }
+                }
+            }
+            if(count == col-ogcol && canMove == true)
+            {
+                
+                return true;
+            }
+        }
+        
+        
+        
+        else if(col < ogcol && ogrow == row)
+        {
+            int count = 0;
+            for(int i = ogcol-1; i >= col; i--)
+            {
+                if(board[row][i] == null)
+                {
+                    count++;
+                }
+                if(board[row][i] != null && i > col)
+                {
+                    canMove = false;
+                }
+                if(board[row][i] != null)
+                {
+                    if(board[row][i].getColor() != Player.getCurrentPlayer().getColor() && canMove)
+                    {
+                        return true;
+                    }
+                }
+            }
+            if(count == ogcol-col && canMove == true)
+            {
+                return true;
+            }
+        }
         return false;
     }
     

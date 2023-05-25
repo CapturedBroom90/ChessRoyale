@@ -30,7 +30,7 @@ public class Knight extends Piece
 
     public boolean isPossibleMove(int ogrow, int ogcol, int row, int col, Piece board[][])
     {
-      int xmove = 0;
+        int xmove = 0;
         int ymove = 0;
         if(ogrow < row && ogcol < col)
         {

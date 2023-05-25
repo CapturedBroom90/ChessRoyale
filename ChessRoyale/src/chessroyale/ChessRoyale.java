@@ -10,7 +10,8 @@ import javax.sound.sampled.*;
     public class ChessRoyale extends JFrame implements Runnable {
         
     sound bgSound = null;  
-        
+    sound cardSound = null;    
+    
     boolean animateFirstTime = true;
     Image image;
     Graphics2D g;
@@ -30,6 +31,11 @@ import javax.sound.sampled.*;
     
     public static boolean placePhase = true;
     public static boolean movePhase = false;
+    
+    public static boolean pressed1 = false;
+    public static boolean pressed2 = false;
+    public static boolean pressed3 = false;
+    public static boolean pressed4 = false;
     
     public static void main(String[] args) {
         ChessRoyale frame = new ChessRoyale();
@@ -52,39 +58,48 @@ import javax.sound.sampled.*;
                     ypixelOffset < 0 || ypixelOffset > Window.getHeight2())
                         return;
                     
+                    xpos = e.getX();
+                    ypos = e.getY();
+                    
+                    if(!Board.placeOnOwnSide(xpos, ypos))
+                        return;
+                    cardSound = new sound("grabCard.wav");
                     click = false;
                     hi = new Highlight();
                     hix = e.getX();
                     hiy = e.getY();
-                    xpos = e.getX();
-                    ypos = e.getY();
+                    
                     
                     addKeyListener(new KeyAdapter(){
                         public void keyPressed(KeyEvent a) {
-
-                                if (a.VK_1 == a.getKeyCode()) 
+                            
+                                if (a.VK_1 == a.getKeyCode() && pressed1 == false) 
                                 {
                                     Board.addPiece(xpos,ypos, 0);
                                     click = true;
                                     hi = null;
+                                    pressed1 = true;
                                 } 
-                                else if (a.VK_2 == a.getKeyCode()) 
+                                else if (a.VK_2 == a.getKeyCode()&& pressed2 == false) 
                                 {
                                     Board.addPiece(xpos,ypos, 1);
                                     click = true;
                                     hi = null;
+                                    pressed2 = true;
                                 } 
-                                else if (a.VK_3 == a.getKeyCode()) 
+                                else if (a.VK_3 == a.getKeyCode()&& pressed3 == false) 
                                 {
                                     Board.addPiece(xpos,ypos, 2);
                                     click = true;
                                     hi = null;
+                                    pressed3 = true;
                                 } 
-                                else if (a.VK_4 == a.getKeyCode()) 
+                                else if (a.VK_4 == a.getKeyCode()&& pressed4 == false) 
                                 {
                                     Board.addPiece(xpos,ypos, 3);
                                     click = true;
                                     hi = null;
+                                    pressed4 = true;
                                 } 
                             repaint();
                         }
@@ -167,8 +182,6 @@ import javax.sound.sampled.*;
                     else 
                     {
                         Board.EndTurn();
-                        placePhase = true;
-                        movePhase = false;
                     }
                 }else if (e.VK_ESCAPE == e.getKeyCode()) {
                     reset();
@@ -231,13 +244,23 @@ import javax.sound.sampled.*;
         Board.Draw(g, this);
 
         g.setColor(Color.black);
+        g.setFont (new Font ("Times New Roman",Font.PLAIN, 100));
+        if(Player.getCurrentPlayer().getLives() <= 0)
+        {
+            if(Player.getCurrentPlayer() == Player.getPlayer1())
+                g.drawString("BLACK WINS", 0, Window.getHeight2()/2);
+            else
+                g.drawString("WHITE WINS", 0, Window.getHeight2()/2);
+        }
+        
+        g.setColor(Color.black);
         g.setFont (new Font ("Times New Roman",Font.PLAIN, 20));
         if(Player.getCurrentPlayer().getColor() == Player.getPlayer1().getColor())
         {
-            g.drawString("Player 1 Turn", 225, 65);
+            g.drawString("White Turn", 225, 65);
         }
         else
-            g.drawString("Player 2 Turn", 225, 65);
+            g.drawString("Black Turn", 225, 65);
         
         if(placePhase)
             g.drawString("Place Phase", 350, 65);
@@ -271,6 +294,10 @@ import javax.sound.sampled.*;
         Deck.reset();
         movePhase = false;
         placePhase = true;
+        pressed1 = false;
+        pressed2 = false;
+        pressed3 = false;
+        pressed4 = false;
     }
 /////////////////////////////////////////////////////////////////////////
     public void animate() {

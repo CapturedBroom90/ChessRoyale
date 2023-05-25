@@ -9,7 +9,8 @@ public class Board {
     private final static int NUM_COLUMNS = 5;      
     private static Piece board[][] = new Piece[NUM_ROWS][NUM_COLUMNS];
     private final static int NUM_WIN = 3;
-    private static int scoreVal = 0;
+    
+    static sound pieceNoise = null;
     
     public static void Reset() 
     {
@@ -44,6 +45,33 @@ public class Board {
         return(NUM_COLUMNS);
     }
     
+    public static boolean placeOnOwnSide(int xpixel,int ypixel) 
+    {
+        int ydelta = Window.getHeight2()/NUM_ROWS;
+        int xdelta = Window.getWidth2()/NUM_COLUMNS;
+        int xpixelOffset = xpixel - Window.getX(0);
+        int ypixelOffset = ypixel - Window.getY(0);
+        
+        if (xpixelOffset < 0 || xpixelOffset > Window.getWidth2() ||
+        ypixelOffset < 0 || ypixelOffset > Window.getHeight2())
+            return false;
+        
+        int row = ypixelOffset/ydelta;
+        int col = xpixelOffset/xdelta;  
+        
+        if(Player.getCurrentPlayer() == Player.getPlayer1())
+        {
+            if(row >= 4)
+                return true;
+        }
+        else
+        {
+            if(row < 4)
+                return true;
+        }
+        return false;
+    }
+    
     public static void addPiece(int xpixel,int ypixel, int slot) 
     {
             
@@ -58,30 +86,33 @@ public class Board {
         
         int row = ypixelOffset/ydelta;
         int col = xpixelOffset/xdelta;  
-       
         
-        if(Deck.deck[slot].getType().equals("Queen") && board[row][col]==null && Player.getCurrentPlayer().getElixir() >= 9)
-        {
-            board[row][col] = new Queen(Player.getCurrentPlayer().getColor());  
-            Player.getCurrentPlayer().subElixir(9);
-        }
-        else if(Deck.deck[slot].getType().equals("Bishop") && board[row][col]==null && Player.getCurrentPlayer().getElixir() >= 3)
-        {
-            board[row][col] = new Bishop(Player.getCurrentPlayer().getColor());  
-            Player.getCurrentPlayer().subElixir(3);
-        }
-        else if(Deck.deck[slot].getType().equals("Rook") && board[row][col]==null && Player.getCurrentPlayer().getElixir() >= 5)
-        {
-            board[row][col] = new Rook(Player.getCurrentPlayer().getColor());  
-            Player.getCurrentPlayer().subElixir(5);
-        }
-        else if(Deck.deck[slot].getType().equals("Knight") && board[row][col]==null && Player.getCurrentPlayer().getElixir() >= 3)
-        {
-            board[row][col] = new Knight(Player.getCurrentPlayer().getColor());  
-            Player.getCurrentPlayer().subElixir(3);
-        }
-        else 
-            return;
+            if(Deck.deck[slot].getType().equals("Queen") && board[row][col]==null && Player.getCurrentPlayer().getElixir() >= 9)
+            {
+                board[row][col] = new Queen(Player.getCurrentPlayer().getColor());  
+                pieceNoise = new sound("woman.wav");
+                Player.getCurrentPlayer().subElixir(9);
+            }
+            else if(Deck.deck[slot].getType().equals("Bishop") && board[row][col]==null && Player.getCurrentPlayer().getElixir() >= 3)
+            {
+                board[row][col] = new Bishop(Player.getCurrentPlayer().getColor());  
+                pieceNoise = new sound("bishop.wav");
+                Player.getCurrentPlayer().subElixir(3);
+            }
+            else if(Deck.deck[slot].getType().equals("Rook") && board[row][col]==null && Player.getCurrentPlayer().getElixir() >= 5)
+            {
+                board[row][col] = new Rook(Player.getCurrentPlayer().getColor());  
+                pieceNoise = new sound("rook.wav");
+                Player.getCurrentPlayer().subElixir(5);
+            }
+            else if(Deck.deck[slot].getType().equals("Knight") && board[row][col]==null && Player.getCurrentPlayer().getElixir() >= 3)
+            {
+                board[row][col] = new Knight(Player.getCurrentPlayer().getColor());  
+                pieceNoise = new sound("knight.wav");
+                Player.getCurrentPlayer().subElixir(3);
+            }
+            else 
+                return;
     }  
     public static void EndTurn() 
     {
@@ -89,6 +120,10 @@ public class Board {
         Player.getCurrentPlayer().addElixir();
         ChessRoyale.placePhase = true;
         ChessRoyale.movePhase = false;
+        ChessRoyale.pressed1 = false;
+        ChessRoyale.pressed2 = false;
+        ChessRoyale.pressed3 = false;
+        ChessRoyale.pressed4 = false;
     }
     public static boolean CheckSpot(int xpixel,int ypixel) 
     {
@@ -141,6 +176,42 @@ public class Board {
         {
             if(board[ogrow][ogcol].isPossibleMove(ogrow, ogcol, row, col, board))
             {
+                if(board[row][col] != null)
+                {
+                    if(board[row][col].getType().equals("King"))
+                    {
+                        if(Player.getCurrentPlayer() == Player.getPlayer1())
+                        {
+                            if(Player.getPlayer2().getLives() == 1)
+                            {
+                                board[row][col] = board[ogrow][ogcol];
+                                board[ogrow][ogcol] = null;
+                                pieceNoise = new sound("kinghit.wav");
+                                pieceNoise = new sound("hornend.wav");
+                                EndTurn();
+                                Player.getCurrentPlayer().subLives();
+                                return;
+                            }
+                        }
+                        else if(Player.getCurrentPlayer() == Player.getPlayer2())
+                        {
+                            if(Player.getPlayer1().getLives() == 1)
+                            {
+                                board[row][col] = null;
+                                pieceNoise = new sound("kinghit.wav");
+                                pieceNoise = new sound("hornend.wav");
+                                EndTurn();
+                                Player.getCurrentPlayer().subLives();
+                                return;
+                            }
+                        }
+                        board[ogrow][ogcol] = null;
+                        pieceNoise = new sound("kinghit.wav");
+                        EndTurn();
+                        Player.getCurrentPlayer().subLives();
+                        return;
+                    }
+                }
                 board[row][col] = board[ogrow][ogcol];
                 board[ogrow][ogcol] = null;
                 EndTurn();
