@@ -10,7 +10,16 @@ public class Board {
     private static Piece board[][] = new Piece[NUM_ROWS][NUM_COLUMNS];
     private final static int NUM_WIN = 3;
     
-    static sound pieceNoise = null;
+    private static boolean place1 = false;
+    private static boolean place2 = false;
+    private static boolean place3 = false;
+    private static boolean place4 = false;
+    
+    private static sound pieceNoise = null;
+    
+    
+    static int ecolumns = 10;
+    static int erows = 1;
     
     public static void Reset() 
     {
@@ -211,6 +220,10 @@ public class Board {
                         Player.getCurrentPlayer().subLives();
                         return;
                     }
+                    else if(board[row][col].getType().equals("King"))
+                    {
+                        
+                    }
                 }
                 board[row][col] = board[ogrow][ogcol];
                 board[ogrow][ogcol] = null;
@@ -223,9 +236,27 @@ public class Board {
     
     public static void Draw(Graphics2D g, ChessRoyale thisObj) 
     {
+        
+        Deck.draw(g, thisObj);
+        
+        
+                
+        
 //draw grid
         int ydelta = Window.getHeight2()/NUM_ROWS;
         int xdelta = Window.getWidth2()/NUM_COLUMNS;
+        
+        Color lilac = new Color(200, 162, 200, 125);
+        g.setColor(lilac);
+        for (int zrow=0;zrow<NUM_ROWS;zrow++)
+        {
+            for (int zcol=0;zcol<NUM_COLUMNS;zcol++)
+            {
+                if(zrow % 2 == 1 && zcol % 2 == 0 || zrow % 2 == 0 && zcol % 2 == 1 )
+                g.fillRect(Window.getX(zcol*xdelta), Window.getY(zrow*ydelta), xdelta, ydelta);
+            }
+        }
+                
         g.setColor(Color.black);
         for (int zi = 1;zi<NUM_ROWS;zi++)
         {
@@ -247,8 +278,6 @@ public class Board {
             }
         }   
         
-        int ecolumns = 10;
-        int erows = 1;
         int _ydelta = Window.getHeight2()/erows;
         int _xdelta = Window.getWidth2()/ecolumns;
  
@@ -274,10 +303,19 @@ public class Board {
                     board[zrow][zcol].draw(g,thisObj, zrow, zcol,_xdelta, _ydelta);
             }
         }       
-        g.setColor(Color.white);
-        for(int i = Player.getCurrentPlayer().getElixir();i<ecolumns;i++)
+//        ecolumns -= Player.getCurrentPlayer().getElixir();
+        for(int i = 0;i<ecolumns;i++)
         {
+            g.setColor(Color.black);
+            g.drawRect(Window.getX(i*50), Window.getY(761), _xdelta-1, 20);
+            g.setColor(Color.white);
             g.fillRect(Window.getX(i*50), Window.getY(761), _xdelta-1, 20);
+            
+        }
+        for(int j = 0;j<Player.getCurrentPlayer().getElixir();j++)
+        {    
+            g.setColor(Color.pink);
+            g.fillRect(Window.getX(j*50), Window.getY(761), _xdelta-1, 20);
         }
     }
 }

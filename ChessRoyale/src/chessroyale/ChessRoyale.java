@@ -178,6 +178,9 @@ import javax.sound.sampled.*;
                     { 
                         placePhase = false;
                         movePhase = true;
+                        xpos = 0;
+                        ypos = 0;
+                        hi = null;
                     }
                     else 
                     {
@@ -234,10 +237,6 @@ import javax.sound.sampled.*;
             return;
         }
 
-        
-        
-        Deck.draw(g, this);
-        
         if(hi != null)
             hi.draw(g, hix, hiy);
         
