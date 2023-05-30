@@ -75,31 +75,34 @@ import javax.sound.sampled.*;
                             
                                 if (a.VK_1 == a.getKeyCode() && pressed1 == false) 
                                 {
+                                    pressed1 = true;
                                     Board.addPiece(xpos,ypos, 0);
                                     click = true;
                                     hi = null;
-                                    pressed1 = true;
                                 } 
                                 else if (a.VK_2 == a.getKeyCode()&& pressed2 == false) 
                                 {
+                                    pressed2 = true;
                                     Board.addPiece(xpos,ypos, 1);
                                     click = true;
                                     hi = null;
-                                    pressed2 = true;
+                                    
                                 } 
                                 else if (a.VK_3 == a.getKeyCode()&& pressed3 == false) 
                                 {
+                                    pressed3 = true;
                                     Board.addPiece(xpos,ypos, 2);
                                     click = true;
                                     hi = null;
-                                    pressed3 = true;
+                                    
                                 } 
                                 else if (a.VK_4 == a.getKeyCode()&& pressed4 == false) 
                                 {
+                                    pressed4 = true;
                                     Board.addPiece(xpos,ypos, 3);
                                     click = true;
                                     hi = null;
-                                    pressed4 = true;
+                                    
                                 } 
                             repaint();
                         }
@@ -176,15 +179,31 @@ import javax.sound.sampled.*;
                 {
                     if(placePhase)
                     { 
-                        placePhase = false;
-                        movePhase = true;
+                        if(Player.getCurrentPlayer().getColor() == Color.black)
+                        {
+                            placePhase = false;
+                            movePhase = true;
+                            Player.switchCurrentPlayer();
+                        }
+                        else 
+                        {
+                            Player.switchCurrentPlayer();
+                            pressed1 = false;
+                            pressed2 = false;
+                            pressed3 = false;
+                            pressed4 = false;
+                        }
                         xpos = 0;
                         ypos = 0;
                         hi = null;
                     }
-                    else 
+                    else if(movePhase)
                     {
                         Board.EndTurn();
+                        hi = null;
+                        xpos = 0;
+                        ypos = 0;
+                        
                     }
                 }else if (e.VK_ESCAPE == e.getKeyCode()) {
                     reset();
@@ -255,9 +274,7 @@ import javax.sound.sampled.*;
         g.setColor(Color.black);
         g.setFont (new Font ("Times New Roman",Font.PLAIN, 20));
         if(Player.getCurrentPlayer().getColor() == Player.getPlayer1().getColor())
-        {
             g.drawString("White Turn", 225, 65);
-        }
         else
             g.drawString("Black Turn", 225, 65);
         
@@ -267,6 +284,14 @@ import javax.sound.sampled.*;
             g.drawString("Move Phase", 350, 65);
         
         
+        g.setColor(Color.blue);
+        if(movePhase)
+        {
+            g.fillRect(Window.getWidth2()/10,Window.WINDOW_HEIGHT*5/6,100,150);
+            g.fillRect(Window.getWidth2()/3,Window.WINDOW_HEIGHT*5/6,100,150);
+            g.fillRect(Window.getWidth2()*35/60,Window.WINDOW_HEIGHT*5/6,100,150);
+            g.fillRect(Window.getWidth2()*9/11,Window.WINDOW_HEIGHT*5/6,100,150);
+        }
         
         gOld.drawImage(image, 0, 0, null);
     }

@@ -8,6 +8,7 @@ public class Player {
     private Color color;  
     private int lives = 3;
     private int elixir = 10;
+    public boolean kingHit = false;
     
 //Class methods.    
     public static void Reset() {
@@ -56,9 +57,11 @@ public class Player {
 //mutator methods.    
     public void addElixir()
     {
+        System.out.println(elixir);
         elixir += (int)(Math.random()*10)+1;
         if(elixir > 10)
             elixir = 10;
+        System.out.println(elixir);
     }
     public void subElixir(int sub)
     {

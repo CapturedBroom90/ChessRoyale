@@ -11,7 +11,7 @@ package chessroyale;
  * @author jeffreyyee
  */
 public class Window {
-    private static final int XBORDER = 20;
+    private static final int XBORDER = 300;
 //    private static final int YBORDER = 20;
     private static final int TOP_BORDER = 40;
     private static final int BOTTOM_BORDER = 200;
@@ -27,7 +27,7 @@ public class Window {
 
 /////////////////////////////////////////////////////////////////////////
     public static int getX(int x) {
-        return (x + XBORDER + WINDOW_BORDER);
+        return (x + WINDOW_BORDER + 20);
     }
 
     public static int getY(int y) {

@@ -29,19 +29,38 @@ public class Board {
                 board[zrow][zcol] = null;  
         
 //starting board
-        board[NUM_ROWS-1][NUM_COLUMNS/2] = new King(Color.white);
-        board[NUM_ROWS-1][NUM_COLUMNS/2+1] = new Pawn(Color.white);
-        board[NUM_ROWS-1][NUM_COLUMNS/2-1] = new Pawn(Color.white);
+        int rand1 = (int)(Math.random() * 3) + 1;
+        int rand2 = (int)(Math.random() * 3) + 1;
+        
+        if(rand1 == 1)
+            board[NUM_ROWS-1][NUM_COLUMNS/2] = new King(Color.white);
+        else if(rand1 == 2)
+            board[NUM_ROWS-1][NUM_COLUMNS/2-1] = new King(Color.white);
+        else
+            board[NUM_ROWS-1][NUM_COLUMNS/2+1] = new King(Color.white);
+        board[NUM_ROWS-1][NUM_COLUMNS/2+2] = new Pawn(Color.white);
+        board[NUM_ROWS-1][NUM_COLUMNS/2-2] = new Pawn(Color.white);
         board[NUM_ROWS-2][NUM_COLUMNS/2] = new Pawn(Color.white);
         board[NUM_ROWS-2][NUM_COLUMNS/2+1] = new Pawn(Color.white);
         board[NUM_ROWS-2][NUM_COLUMNS/2-1] = new Pawn(Color.white);
+        board[NUM_ROWS-2][NUM_COLUMNS/2-2] = new Pawn(Color.white);
+        board[NUM_ROWS-2][NUM_COLUMNS/2+2] = new Pawn(Color.white);
+
         
-        board[0][NUM_COLUMNS/2] = new King(Color.black);
-        board[0][NUM_COLUMNS/2+1] = new Pawn(Color.black);
-        board[0][NUM_COLUMNS/2-1] = new Pawn(Color.black);
+        if(rand2 == 1)
+            board[0][NUM_COLUMNS/2] = new King(Color.black);
+        else if(rand2 == 2)
+            board[0][NUM_COLUMNS/2-1] = new King(Color.black);
+        else
+            board[0][NUM_COLUMNS/2+1] = new King(Color.black);
+        board[0][NUM_COLUMNS/2+2] = new Pawn(Color.black);
+        board[0][NUM_COLUMNS/2-2] = new Pawn(Color.black);
         board[1][NUM_COLUMNS/2] = new Pawn(Color.black);
         board[1][NUM_COLUMNS/2+1] = new Pawn(Color.black);
         board[1][NUM_COLUMNS/2-1] = new Pawn(Color.black);
+        board[1][NUM_COLUMNS/2+2] = new Pawn(Color.black);
+        board[1][NUM_COLUMNS/2-2] = new Pawn(Color.black);
+        
     }
     
     public static int getNumRows()
@@ -96,32 +115,41 @@ public class Board {
         int row = ypixelOffset/ydelta;
         int col = xpixelOffset/xdelta;  
         
-            if(Deck.deck[slot].getType().equals("Queen") && board[row][col]==null && Player.getCurrentPlayer().getElixir() >= 9)
+            if(Deck.deck[slot].getType().equals("Queen") && board[row][col] == null && Player.getCurrentPlayer().getElixir() >= 9)
             {
                 board[row][col] = new Queen(Player.getCurrentPlayer().getColor());  
                 pieceNoise = new sound("woman.wav");
                 Player.getCurrentPlayer().subElixir(9);
             }
-            else if(Deck.deck[slot].getType().equals("Bishop") && board[row][col]==null && Player.getCurrentPlayer().getElixir() >= 3)
+            else if(Deck.deck[slot].getType().equals("Bishop") && board[row][col] == null && Player.getCurrentPlayer().getElixir() >= 3)
             {
                 board[row][col] = new Bishop(Player.getCurrentPlayer().getColor());  
                 pieceNoise = new sound("bishop.wav");
                 Player.getCurrentPlayer().subElixir(3);
             }
-            else if(Deck.deck[slot].getType().equals("Rook") && board[row][col]==null && Player.getCurrentPlayer().getElixir() >= 5)
+            else if(Deck.deck[slot].getType().equals("Rook") && board[row][col] == null && Player.getCurrentPlayer().getElixir() >= 5)
             {
                 board[row][col] = new Rook(Player.getCurrentPlayer().getColor());  
                 pieceNoise = new sound("rook.wav");
                 Player.getCurrentPlayer().subElixir(5);
             }
-            else if(Deck.deck[slot].getType().equals("Knight") && board[row][col]==null && Player.getCurrentPlayer().getElixir() >= 3)
+            else if(Deck.deck[slot].getType().equals("Knight") && board[row][col] == null && Player.getCurrentPlayer().getElixir() >= 3)
             {
                 board[row][col] = new Knight(Player.getCurrentPlayer().getColor());  
                 pieceNoise = new sound("knight.wav");
                 Player.getCurrentPlayer().subElixir(3);
             }
             else 
-                return;
+            {
+                if(slot == 0)
+                    ChessRoyale.pressed1 = false;
+                else if(slot == 1)
+                    ChessRoyale.pressed2 = false;
+                else if(slot == 2)
+                    ChessRoyale.pressed3 = false;
+                else if(slot == 3)
+                    ChessRoyale.pressed4 = false;
+            }
     }  
     public static void EndTurn() 
     {
@@ -197,7 +225,11 @@ public class Board {
                                 board[ogrow][ogcol] = null;
                                 pieceNoise = new sound("kinghit.wav");
                                 pieceNoise = new sound("hornend.wav");
-                                EndTurn();
+                                Player.getPlayer2().kingHit = true;
+                                if(Player.getCurrentPlayer().getColor() == Color.black)
+                                    EndTurn();
+                                else
+                                    Player.switchCurrentPlayer();
                                 Player.getCurrentPlayer().subLives();
                                 return;
                             }
@@ -209,7 +241,11 @@ public class Board {
                                 board[row][col] = null;
                                 pieceNoise = new sound("kinghit.wav");
                                 pieceNoise = new sound("hornend.wav");
-                                EndTurn();
+                                Player.getPlayer1().kingHit = true;
+                                if(Player.getCurrentPlayer().getColor() == Color.black)
+                                    EndTurn();
+                                else
+                                    Player.switchCurrentPlayer();
                                 Player.getCurrentPlayer().subLives();
                                 return;
                             }
@@ -220,14 +256,13 @@ public class Board {
                         Player.getCurrentPlayer().subLives();
                         return;
                     }
-                    else if(board[row][col].getType().equals("King"))
-                    {
-                        
-                    }
                 }
                 board[row][col] = board[ogrow][ogcol];
                 board[ogrow][ogcol] = null;
-                EndTurn();
+                if(Player.getCurrentPlayer().getColor() == Color.black)
+                    EndTurn();
+                else
+                    Player.switchCurrentPlayer();
             }
         }
         else
@@ -238,10 +273,7 @@ public class Board {
     {
         
         Deck.draw(g, thisObj);
-        
-        
-                
-        
+
 //draw grid
         int ydelta = Window.getHeight2()/NUM_ROWS;
         int xdelta = Window.getWidth2()/NUM_COLUMNS;
@@ -267,16 +299,40 @@ public class Board {
         for (int zi = 1;zi<NUM_COLUMNS;zi++)
         {
             g.drawLine(Window.getX(zi*xdelta),Window.getY(0),
-                    Window.getX(zi*xdelta),Window.getY(Window.getHeight2()));
+                Window.getX(zi*xdelta),Window.getY(Window.getHeight2()));
         }
         for (int zrow=0;zrow<NUM_ROWS;zrow++)
         {
             for (int zcol=0;zcol<NUM_COLUMNS;zcol++)        
             {
                 if (board[zrow][zcol] != null)
-                    board[zrow][zcol].draw(g, thisObj, zrow, zcol,xdelta, ydelta);
+                    board[zrow][zcol].draw(g, thisObj, zrow, zcol, xdelta, ydelta);
             }
         }   
+        
+        if(Player.getPlayer1().kingHit == false)
+        {
+            g.setColor(lilac);
+            g.fillRect(Window.getX(1*xdelta),Window.getY(7*ydelta),xdelta,ydelta);  
+            g.fillRect(Window.getX(2*xdelta),Window.getY(7*ydelta),xdelta,ydelta);  
+            g.fillRect(Window.getX(3*xdelta),Window.getY(7*ydelta),xdelta,ydelta);  
+            g.setColor(lilac);
+            g.drawRect(Window.getX(1*xdelta),Window.getY(7*ydelta),xdelta,ydelta);
+            g.drawRect(Window.getX(2*xdelta),Window.getY(7*ydelta),xdelta,ydelta);
+            g.drawRect(Window.getX(3*xdelta),Window.getY(7*ydelta),xdelta,ydelta);
+        }
+        
+        if(Player.getPlayer2().kingHit == false)
+        {
+            g.setColor(lilac);
+            g.fillRect(Window.getX(1*xdelta),Window.getY(0*ydelta),xdelta,ydelta);
+            g.fillRect(Window.getX(2*xdelta),Window.getY(0*ydelta),xdelta,ydelta);
+            g.fillRect(Window.getX(3*xdelta),Window.getY(0*ydelta),xdelta,ydelta);
+            g.setColor(lilac);
+            g.drawRect(Window.getX(1*xdelta),Window.getY(0*ydelta),xdelta,ydelta);
+            g.drawRect(Window.getX(2*xdelta),Window.getY(0*ydelta),xdelta,ydelta);
+            g.drawRect(Window.getX(3*xdelta),Window.getY(0*ydelta),xdelta,ydelta);
+        }
         
         int _ydelta = Window.getHeight2()/erows;
         int _xdelta = Window.getWidth2()/ecolumns;

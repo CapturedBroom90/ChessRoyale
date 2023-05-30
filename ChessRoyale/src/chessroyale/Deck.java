@@ -1,6 +1,7 @@
 package chessroyale;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 
 
@@ -58,10 +59,39 @@ public class Deck
     
     public static void draw(Graphics2D g,ChessRoyale thisObj)
     {
+        if(deck[0] != null)
             deck[0].draw(g, thisObj,0);
+        if(deck[1] != null)
             deck[1].draw(g, thisObj,1);
+        if(deck[2] != null)
             deck[2].draw(g, thisObj,2);
+        if(deck[3] != null)
             deck[3].draw(g, thisObj,3);
+
+        g.setFont (new Font ("Times New Roman",Font.PLAIN, 50));
+        g.setColor(Color.BLACK);
+        g.drawString("1", Window.getWidth2()/10+39,Window.WINDOW_HEIGHT*5/6+75);
+        g.drawString("2", Window.getWidth2()/3+39,Window.WINDOW_HEIGHT*5/6+75);
+        g.drawString("3", Window.getWidth2()*35/60+39,Window.WINDOW_HEIGHT*5/6+75);
+        g.drawString("4", Window.getWidth2()*9/11+39,Window.WINDOW_HEIGHT*5/6+75);
+        
+        g.setColor(Color.white);
+        if(ChessRoyale.pressed1)
+        {
+            g.fillRect(Window.getWidth2()/10,Window.WINDOW_HEIGHT*5/6,100,150);
+        }
+        if(ChessRoyale.pressed2)
+        {
+            g.fillRect(Window.getWidth2()/3,Window.WINDOW_HEIGHT*5/6,100,150);
+        }
+        if(ChessRoyale.pressed3)
+        {
+            g.fillRect(Window.getWidth2()*35/60,Window.WINDOW_HEIGHT*5/6,100,150);
+        }
+        if(ChessRoyale.pressed4)
+        {
+            g.fillRect(Window.getWidth2()*9/11,Window.WINDOW_HEIGHT*5/6,100,150);
+        }
         
     }
 }

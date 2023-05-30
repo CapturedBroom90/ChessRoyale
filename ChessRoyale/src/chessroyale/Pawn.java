@@ -37,10 +37,10 @@ public class Pawn extends Piece
     public void draw(Graphics2D g,ChessRoyale thisObj,int row,int column,int xdelta,int ydelta) {
  
         if(super.getColor() == Color.black)
-            g.drawImage(pawnBlackImage,column*xdelta+50,row*ydelta+75,xdelta-40,ydelta-10,thisObj);
+            g.drawImage(pawnBlackImage,column*xdelta+55,row*ydelta+75,xdelta-50,ydelta-10,thisObj);
 
         if(super.getColor() == Color.white)
-            g.drawImage(pawnWhiteImage,column*xdelta+50,row*ydelta+75,xdelta-40,ydelta-10,thisObj);
+            g.drawImage(pawnWhiteImage,column*xdelta+55,row*ydelta+75,xdelta-50,ydelta-10,thisObj);
     }
     
     public void draw(Graphics2D g,ChessRoyale thisObj, int spot) {
